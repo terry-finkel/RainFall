@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+int
+main (int argc, const char *argv[]) {
+
+    const int n = atoi(argv[1]);
+
+    if (n == 423) {
+
+        char *shell = strdup("/bin/sh");
+        const gid_t a = getegid(); //?
+        const uid_t b = geteuid(); //?
+        setresgid(0x1c, 0x1c, 0x1c);
+        setresuid(0x18, 0x18, 0x18);
+        execv(shell, (char *[8]){shell});
+    } else {
+
+        fwrite("No!\n", 4, 1, stdout);
+    }
+
+    return 0;
+}

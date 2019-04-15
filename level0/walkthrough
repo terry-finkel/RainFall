@@ -1,0 +1,6 @@
+Le dossier ne contient qu'un binaire et rien d'autre.
+En executant le binaire, on obtient un SIGSEGV.
+On inspecte donc le binaire avec gdb. On peut remarquer que le binaire
+fait un appel a atoi au debut.
+L'instruction qui suit atoi est un cmpl de la valeur de retour d'atoi (eax) et 0x1a7, a savoir 423.
+On lance le programme avec 423 comme argument. Un shell est ouvert. En tapant whoami on peut voir que nous sommes level1. Il suffit juste de cat le fichier .pass de l'user.
