@@ -1,0 +1,8 @@
+When we check our binary we can see that before the main there is a function called run. In the main, we have a gets, and a static buffer.
+The function run uses system to open a shell.
+We just need to use a buffer overflow to execute the function run, which will open a shell as level2.
+
+The exploit is the following:
+(python -c 'print "a"*76 + "\x44\x84\x04\x08"'; cat) | ./level1
+
+The buffer size is 76, that's why we pad with 76 chars. Next to it is the run function address, inverted because of the endianness. We also add a cat so we can get a hold of the fd of the shell, otherwise it will close itself.
