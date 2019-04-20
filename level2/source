@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+
+void *
+p (void) {
+
+    char buffer[76];
+
+    fflush(stdout);
+    gets(buffer);
+    if (buffer[77] == 'b') {
+
+        printf("(%p)\n", buffer);
+        return NULL;
+    }
+
+    puts(buffer);
+    return (void *)strdup(buffer);
+}
+
+int
+main (void) {
+
+    p();
+    return 0;
+}
