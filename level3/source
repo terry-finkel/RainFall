@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void
+v (void) {
+
+    char buff[520];
+    fgets(buff, 512, stdin);
+    printf(buff);
+
+    if(*(int *)(0x804988c) == 64) {
+
+        fwrite("Wait what?\n", 11, 1, stdout);
+        system("/bin/sh");
+    }
+}
+
+int
+main (void) {
+
+    v();
+    return 0;
+}
