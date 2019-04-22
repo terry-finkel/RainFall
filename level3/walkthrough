@@ -1,0 +1,11 @@
+In this binary we can observe that there is yet another buffer, but the function
+fgets is used to fill it. Fgets controls how many characters will be written to
+the buffer so we cannot use a buffer overflow here.
+
+However, by checking the assembly, we can observe two things that can point us
+towards the exploit. First, the buffer is passed to printf to be displayed.
+Second, there is a cmp 0x40 with an address. If the cmp holds true, the program
+will branch into a /bin/sh.
+
+We then deduce we merely need to change the value at address 0x804988c to 0x40
+to exploit this binary. We can do that by using the %n specifier in printf.
