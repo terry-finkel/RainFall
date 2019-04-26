@@ -15,7 +15,7 @@ n (void) {
    
 
     if(*(int *)(0x8049810) == 16930116) {
-        system("/bin/sh");
+        system("cat /home/user/level4/.pass");
     }
 }
 
