@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void
+o (void) {
+	system("/bin/sh");
+	exit;
+}
+
+
+void
+n (void) {
+
+    char buff[520];
+    fgets(buff, 520, stdin);
+	printf(buff);
+	exit;
+}
+
+int
+main (void) {
+
+    n();
+    return 0;
+}

