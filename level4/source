@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void
+p (char *buff) {
+	printf(buff);
+}
+
+
+void
+n (void) {
+
+    char buff[520];
+    fgets(buff, 520, stdin);
+   
+
+    if(*(int *)(0x8049810) == 16930116) {
+        system("/bin/sh");
+    }
+}
+
+int
+main (void) {
+
+    n();
+    return 0;
+}
