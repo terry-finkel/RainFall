@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void
+n (void) {
+	system("/bin/sh");
+    return();
+}
+
+
+void
+m (void) {
+    puts("Nope");
+}
+
+int
+main (void) {
+
+    void *b = malloc(64);
+    void *c = malloc(4);
+    int a;
+    &a = 0x8048468;
+    c = a
+    strcpy();
+    return 0;
+}
