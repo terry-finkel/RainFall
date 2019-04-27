@@ -3,7 +3,8 @@
 
 void
 p (char *buff) {
-	printf(buff);
+
+    printf(buff);
 }
 
 
@@ -12,11 +13,8 @@ n (void) {
 
     char buff[520];
     fgets(buff, 520, stdin);
-   
 
-    if(*(int *)(0x8049810) == 16930116) {
-        system("cat /home/user/level4/.pass");
-    }
+    if (*(int *)(0x8049810) == 16930116) system("cat /home/user/level4/.pass");
 }
 
 int
