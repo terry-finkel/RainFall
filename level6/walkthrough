@@ -1,22 +1,14 @@
 with this exec, when we passe 1 argv, the function return "Nope"
 and segfaut when there is no argv.
 
-In the main function we saw 2 call malloc and a strcpy
-then the main make a call to the function who is 
-stored in eax.
+In the main function we saw 2 call to malloc and a strcpy call,
+then there is a call to the function whose address is stored in the second malloc.
 
-there is 2 other function, 
-m, who call puts and n who make a syscall.
-at the actual state, the address in eax is the m function's address.
+Since malloc are contiguous, and strcpy uses the first malloc of length 64 as the
+recipient, we can use argv[1], which is the strcpy src, to overflow the second
+malloc memory area. The first 64 bytes call is aligned on 16 bytes, there is no
+padding and we have 8 bytes of metadata between the first and second malloc, so 
+we can fill 72 bytes and overflow the function address with the next 4.
 
-the goal is to change the address in eax with the n function
-
-
-to find the argv 
-ebp + 8 = argc 
-ebp + 12 = argv
-*argv = argv[0]
-*(argv + 1) = argv[1]
-
-
+Exploit:
 ./level6 `python -c 'print "A"*72 + "\x54\x84\x04\x08"'`
