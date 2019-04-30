@@ -1,0 +1,2 @@
+memcpy got 0x8049b68 -> 0x8048516
+memcpy overwrite adress 0x804a010
