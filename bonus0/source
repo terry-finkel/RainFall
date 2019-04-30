@@ -1,0 +1,25 @@
+void
+p (char *buffer, const char *s) {
+
+    puts(s);
+    char buff[4104];
+    read(0, buff, 4096);
+    strchr(buff, 'a');
+    strncpy(buffer, buff, 20);
+}
+
+void
+pp (char *buffer) {
+
+    p(&buffer[0], "-");
+    p(&buffer[28], "-");
+}
+
+int
+main (void) {
+
+    char buffer[64];
+
+    pp(buffer);
+    puts(buffer);
+}
