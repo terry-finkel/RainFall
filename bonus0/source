@@ -4,7 +4,8 @@ p (char *buffer, const char *s) {
     puts(s);
     char buff[4104];
     read(0, buff, 4096);
-    strchr(buff, 'a');
+    const char *b = strchr(buff, '\n');
+    *b = '\0';
     strncpy(buffer, buff, 20);
 }
 
@@ -21,5 +22,6 @@ main (void) {
     char buffer[64];
 
     pp(buffer);
+    strcat();
     puts(buffer);
 }
