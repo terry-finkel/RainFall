@@ -1,0 +1,17 @@
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+int
+main (int argc, const char *argv[]) {
+
+    char buffer[44];
+    int n = atoi(argv[1]);
+
+    if (n > 9) return 1;
+
+    n *= 4;
+    memcpy(buffer, argv[2], n);
+
+    if (((unsigned int)(buffer[60])) == 0x574f4c46) execl("/bin/sh", "sh", (void *)0);
+}
