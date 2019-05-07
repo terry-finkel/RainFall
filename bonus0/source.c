@@ -1,0 +1,33 @@
+void
+p (char *buffer, const char *s) {
+
+    puts(s);
+    char buff[4096];
+    read(0, buff, 4096);
+    const char *b = strchr(buff, '\n');
+    *b = '\0';
+    strncpy(buffer, buff, 20);
+}
+
+void
+pp (char *buffer) {
+
+    char p1[20];
+    char p2[20];
+
+    p(p1, "-");
+    p(p2, "-");
+    strcpy(buffer, p1);
+    const size_t len = strlen(buffer);
+    buffer[len < 21 ? len : 22] = ' ';
+    strcat(buffer, p2);
+}
+
+int
+main (void) {
+
+    char buffer[42];
+
+    pp(buffer);
+    puts(buffer);
+}
