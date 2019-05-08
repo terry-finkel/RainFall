@@ -1,10 +1,14 @@
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 void
 p (char *buffer, const char *s) {
 
     puts(s);
     char buff[4096];
     read(0, buff, 4096);
-    const char *b = strchr(buff, '\n');
+    char *b = strchr(buff, '\n');
     *b = '\0';
     strncpy(buffer, buff, 20);
 }
@@ -13,7 +17,7 @@ void
 pp (char *buffer) {
 
     char p1[20];
-    char p2[20];
+    char p2[32];
 
     p(p1, "-");
     p(p2, "-");
@@ -30,4 +34,5 @@ main (void) {
 
     pp(buffer);
     puts(buffer);
+    return 0;
 }
