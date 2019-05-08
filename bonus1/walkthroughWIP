@@ -1,2 +1,20 @@
+The binary memcpy the argv[2] in a buffer, with atoi(argv[1])*4 as the numbers of octets. 
+Then open a shell with execl, if atoi(argv[1])*4 is equal to 0x574f4c46.
+
+The goal is to pass this comparaison by write \x46\x4c\x4f\x57 in n.
+
+To do that we have to put a huges number in arg[1] to write in further in the stack 
+and rewrite n.
+But at the begining, the function return if the argv[1] is more that 9.
+
+We find that we can pass the 9 comparaison by send a negative number.
+like INT_MIN (-2147483648)
+And memcpy make the comparaison in unsigned so the negative become positive
+
+int min is not big enough so we find that with -2147483600.
+
+So now we just need to write the address in argv[2] many times so we can be sure to rewrite 
+on the param "n".
+
 Exploit:
 ./bonus1 "-2147483600" `python -c 'print "\x46\x4c\x4f\x57"*11'`
