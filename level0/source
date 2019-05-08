@@ -10,15 +10,15 @@ main (int argc, const char *argv[]) {
 
     if (n == 423) {
 
-        char *shell = strdup("/bin/sh");
-        const gid_t a = getegid(); //?
-        const uid_t b = geteuid(); //?
-        setresgid(0x1c, 0x1c, 0x1c);
-        setresuid(0x18, 0x18, 0x18);
-        execv(shell, (char *[8]){shell});
+        const char *shell = strdup("/bin/sh");
+        const gid_t a = getegid();
+        const uid_t b = geteuid();
+        setresgid(a, a, a);
+        setresuid(b, b, b);
+        execv("/bin/sh", (char * const *)shell);
     } else {
 
-        fwrite("No!\n", 4, 1, stdout);
+        fwrite("No!\n", 1, 5, stderr);
     }
 
     return 0;
