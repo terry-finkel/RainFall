@@ -13,6 +13,7 @@ n (void) {
 
     char buff[520];
     fgets(buff, 520, stdin);
+    p(buff);
 
     if (*(int *)(0x8049810) == 16930116) system("cat /home/user/level4/.pass");
 }
@@ -21,5 +22,4 @@ int
 main (void) {
 
     n();
-    return 0;
 }
