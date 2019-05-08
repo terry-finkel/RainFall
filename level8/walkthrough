@@ -14,3 +14,4 @@ and when we send "service"
 the binary verifies that during the "login"
 the 32nd character is not 0.
 
+There is no exploit per say, it's only a matter of understanding what the program does by reading the asm.
