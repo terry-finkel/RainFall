@@ -13,6 +13,6 @@ main (void) {
 
     char buffer[64];
 
-    (void)gets(buffer);
+    gets(buffer);
     return 0;
 }
