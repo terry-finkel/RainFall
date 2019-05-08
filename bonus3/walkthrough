@@ -1,0 +1,8 @@
+By understanding the source code, we can note that the binary takes an
+argument, perform an atoi on said argument and store at the index returned by
+atoi on a buffer a '\0'.
+Then there is a strcmp between the buffer and argv[1]. So by passing an empty
+string the comparison will hold true and a shell will be open.
+
+Exploit:
+./bonus3 ""

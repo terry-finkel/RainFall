@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+int
+main (void) {
+
+    char *auth = NULL;
+    char *service = NULL;
+
+    while (1) {
+
+        printf("%p, %p \n", auth, service);
+
+        char buff[128];
+        if (fgets(buff, 128, stdin) == NULL) break;
+
+        if (strncmp("auth ", buff, 5) == 0) {
+
+            auth = malloc(4);
+
+            if (strlen(auth + 5) <= 30) strcpy(auth, buff + 5);
+        } else if (strncmp("reset", buff, 5) == 0) {
+
+            free(auth);
+        } else if (strncmp("service", buff, 6) == 0) {
+
+            service = strdup(buff + 7);
+        } else if (strncmp("login", buff, 5) == 0) {
+
+            if (auth[32] != '\0') {
+                system("/bin/sh");
+            } else {
+                fwrite("Password:\n", 1, 10, stdout);
+            }
+
+        }
+    }
+}
