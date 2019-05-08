@@ -8,6 +8,7 @@ p (void) {
 
     fflush(stdout);
     gets(buffer);
+
     if (buffer[77] == 'b') {
 
         printf("(%p)\n", buffer);
